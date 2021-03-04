@@ -3,6 +3,7 @@ import argparse
 import sys
 from TwitterAPI import TwitterAPI, TwitterResponse
 from censearch import consumer_key, consumer_secret
+from censearch.censearch_args import parse_args
 
 
 def get_variations(search_term: str) -> list[str]:
@@ -13,7 +14,7 @@ def get_variations(search_term: str) -> list[str]:
     total: int = len(search_term) - 1
     variations: list[str] = []
     for _ in range(1, total):
-        variations.append(search_term.replace(search_term[_], "*"))
+        variations.append(search_term.replace(search_term[_], "*", 1))
     return variations
 
 
@@ -28,32 +29,14 @@ def get_tweets(word_list: list[str]) -> list:
     return tweet_list
 
 
-def parse_args() -> argparse.Namespace:
-    """:"""
-    parser = argparse.ArgumentParser()
-    main_args = parser.add_argument_group()
-
-    main_args.add_argument(
-        "-s", "--search", help="phrase to search", type=str, required=True
-    )
-    # main_args.add_argument("-u", "--user", help="username to search", type=str)
-    return parser.parse_args()
-
-
-def main():
-    """:"""
-    args: argparse.Namespace = parse_args()
-    search_term: str = args.search
-    censored_words: list[str] = get_variations(search_term)
-    tweet_list: list = get_tweets(censored_words)
-
+def display_tweets(tweet_list: list, words: list[str]):
+    """display the collected tweets"""
     block_num: int = 0
-    print("Gathering tweets...")
     for block in tweet_list:
         block = block["statuses"]
         num_tweets: int = len(block)
         print("-" * 80)
-        print(f"\nSearch phrase: '{censored_words[block_num]}'")
+        print(f"\nSearch phrase: '{words[block_num]}'")
         for tweet in range(num_tweets):
             author: str = block[tweet]["user"]["screen_name"]
             tweet_id: str = block[tweet]["id_str"]
@@ -62,6 +45,17 @@ def main():
             print(f"{url}")
         block_num += 1
     print("-" * 80)
+
+
+def main():
+    """:"""
+    args: argparse.Namespace = parse_args()
+    search_term: str = args.search
+
+    censored_words: list[str] = get_variations(search_term)
+    print("Grabbing tweets...")
+    tweet_list: list = get_tweets(censored_words)
+    display_tweets(tweet_list, censored_words)
 
 
 if __name__ == "__main__":

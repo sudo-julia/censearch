@@ -7,3 +7,5 @@ with open(f"{key_dir}/consumer_key") as f:
 
 with open(f"{key_dir}/consumer_secret") as f:
     consumer_secret: str = f.read().strip()
+
+VERSION = "0.1.1"
