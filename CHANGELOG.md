@@ -5,6 +5,7 @@
 Released 2021-03-XX
 
 - Added `config.ini` and `censearch_config` to set/parse the Twitter API Keys
+- Search terms are now displayed before running the search
 
 ## Version 0.1.1
 

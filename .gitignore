@@ -4,5 +4,6 @@ build/
 dist/
 *.pyc
 censearch.egg-info
+poetry.lock
 *__pycache__*
 .vim/

@@ -51,9 +51,17 @@ def main():
     """:"""
     args: argparse.Namespace = parse_args()
     search_term: str = args.search
+    underline: int = 0
 
     censored_words: list[str] = get_variations(search_term)
-    print("Grabbing tweets...")
+    startup_msg: str = "Grabbing tweets with search terms:"
+    print(startup_msg, *censored_words)
+    # get the number of characters in startup_msg + list items to format an underline
+    for word in censored_words:
+        underline += len(word) + 1
+    underline += len(startup_msg)
+    print("=" * underline)
+    del startup_msg, underline
     tweet_list: list = get_tweets(censored_words)
     display_tweets(tweet_list, censored_words)
 
