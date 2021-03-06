@@ -1,6 +1,7 @@
 from __future__ import annotations
 import argparse
 import sys
+from pathlib import Path
 from TwitterAPI import TwitterAPI, TwitterResponse
 from censearch import consumer_key, consumer_secret
 from censearch.censearch_args import parse_args
@@ -37,15 +38,28 @@ def display_tweets(tweet_list: list, words: list[str]):
         block = block["statuses"]
         num_tweets: int = len(block)
         print(f"\nSearch phrase: '{words[block_num]}'")
+        # extract the tweets from the API response
         for tweet in range(num_tweets):
             author: str = block[tweet]["user"]["screen_name"]
             body: str = block[tweet]["text"]
             tweet_id: str = block[tweet]["id_str"]
             url: str = f"https://twitter.com/{author}/status/{tweet_id}"
             line: str = "-" * len(url)
-            print(f"\nTweet {tweet + 1}:\n{body}\n- @{author}\n{url}")  # print tweet
-            print(line)
+            output: str = f"\nTweet {tweet + 1}:\n{body}\n- @{author}\n{url}\n{line}"
+            print(output)
         block_num += 1
+
+
+def output_to_file(text: str, location: str):
+    """write the results to a file"""
+    if Path(location).exists():
+        cont: str = input(f"'{location}' already exists. Overwrite? [y/n] ").casefold()
+        if cont != "y":
+            print(f"Leaving '{location}' as is.")
+            return
+    with open(location, "w") as output_file:
+        # switch to writelines if we end up using a list
+        output_file.write(text)
 
 
 def main():
@@ -65,6 +79,9 @@ def main():
     del startup_msg, underline
     tweet_list: list = get_tweets(censored_words)
     display_tweets(tweet_list, censored_words)
+    # tweets: str = ""  # placeholder var
+    # if args.output:
+    # output_to_file(tweets, args.output)
 
 
 if __name__ == "__main__":

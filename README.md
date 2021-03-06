@@ -1,7 +1,6 @@
 # censearch.py
 
 ![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/sudo-julia/censearch/main?style=flat)
-![PyPI - Format](https://img.shields.io/pypi/format/censearch?color=informational)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sudo-julia/censearch)
 
 Fetch self-censored tweets of a given word, i.e. 'tr*mp'

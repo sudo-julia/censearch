@@ -1,4 +1,5 @@
 """parse censearch's config file and return API key values"""
+from __future__ import annotations
 import configparser
 import os
 

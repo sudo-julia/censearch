@@ -8,6 +8,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     main_args = parser.add_argument_group()
 
+    main_args.add_argument("-o", "--output", help="output results to a file", type=str)
     main_args.add_argument(
         "-s", "--search", help="phrase to search", type=str, required=True
     )
