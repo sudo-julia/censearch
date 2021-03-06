@@ -32,19 +32,20 @@ def get_tweets(word_list: list[str]) -> list:
 def display_tweets(tweet_list: list, words: list[str]):
     """display the collected tweets"""
     block_num: int = 0
+
     for block in tweet_list:
         block = block["statuses"]
         num_tweets: int = len(block)
-        print("-" * 80)
         print(f"\nSearch phrase: '{words[block_num]}'")
         for tweet in range(num_tweets):
             author: str = block[tweet]["user"]["screen_name"]
+            body: str = block[tweet]["text"]
             tweet_id: str = block[tweet]["id_str"]
             url: str = f"https://twitter.com/{author}/status/{tweet_id}"
-            print(f"\nTweet {tweet + 1}:\n{block[tweet]['text']} - @{author}")
-            print(f"{url}")
+            line: str = "-" * len(url)
+            print(f"\nTweet {tweet + 1}:\n{body}\n- @{author}\n{url}")  # print tweet
+            print(line)
         block_num += 1
-    print("-" * 80)
 
 
 def main():

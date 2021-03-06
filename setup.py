@@ -14,7 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/sudo-julia/censearch",
     packages=find_packages(),
-    modules=["censearch_args"],
+    modules=["censearch_args", "censearch_config"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
